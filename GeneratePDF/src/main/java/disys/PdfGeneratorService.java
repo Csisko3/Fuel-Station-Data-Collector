@@ -22,7 +22,7 @@ public class PdfGeneratorService {
 
     public void generatePdf(String customerId) {
         // Use static values for customer data
-        String firstName = "John";
+        String firstName = "Maria";
         String lastName = "Doe";
 
         PDDocument document = new PDDocument();

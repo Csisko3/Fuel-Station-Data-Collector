@@ -10,8 +10,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Receiver {
+
+    private static final int MESSAGE_THRESHOLD = 3;
+    private static AtomicInteger messageCounter = new AtomicInteger(0);
+    private static StringBuilder collectedData = new StringBuilder();
 
     public static void receive(String queueName, String brokerUrl) throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
@@ -28,7 +33,7 @@ public class Receiver {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received message: " + message);
 
-            // Extrahiere db_URL und customer_id aus der Nachricht
+            // Extract db_URL and customer_id from the message
             String[] parts = message.split(";");
             if (parts.length < 2) {
                 System.err.println(" [x] Invalid message format: " + message);
@@ -37,14 +42,28 @@ public class Receiver {
             String customerId = parts[0];
             String dbUrl = parts[1];
 
-            // Sammle Daten von der Station-Datenbank
-            String collectedData = collectData(dbUrl, customerId);
+            // Collect data from the station database
+            String data = collectData(dbUrl, customerId);
 
-            // Sende gesammelte Daten an die DataCollectionReceiver-Queue
-            if (!collectedData.isEmpty()) {
-                Sender.send(collectedData, "RECEIVER", brokerUrl);
+            // Append collected data
+            if (!data.isEmpty()) {
+                synchronized (collectedData) {
+                    collectedData.append(data);
+                }
             } else {
                 System.out.println(" [x] No data found for customer_id: " + customerId);
+            }
+
+            // Increment the counter and check if the threshold is reached
+            if (messageCounter.incrementAndGet() >= MESSAGE_THRESHOLD) {
+                // Send collected data to the DataCollectionReceiver queue
+                Sender.send(collectedData.toString(), "RECEIVER", brokerUrl);
+                System.out.println(" [x] Sent collected data to RECEIVER queue");
+                // Reset the counter and collected data
+                messageCounter.set(0);
+                synchronized (collectedData) { //Ohne synchronized könnten mehrere threads
+                    collectedData.setLength(0);
+                }
             }
         };
 
@@ -56,16 +75,16 @@ public class Receiver {
         StringBuilder collectedData = new StringBuilder();
         java.sql.Connection conn = null;
         try {
-            // Verbindung zur Datenbank herstellen
+            // Establish connection to the database
             conn = DriverManager.getConnection("jdbc:postgresql://" + dbUrl + "/stationdb", "postgres", "postgres");
 
-            // Verwende PreparedStatement für sichere Parameterbindung
+            // Use PreparedStatement for secure parameter binding
             String query = "SELECT * FROM charge WHERE customer_id = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, Integer.parseInt(customerId));
             ResultSet rs = pstmt.executeQuery();
 
-            if (!rs.isBeforeFirst()) { // Prüfen, ob das ResultSet leer ist
+            if (!rs.isBeforeFirst()) { // Check if the ResultSet is empty
                 System.out.println(" [x] No records found for customer_id: " + customerId);
             } else {
                 while (rs.next()) {

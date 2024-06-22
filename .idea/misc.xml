@@ -9,7 +9,15 @@
       <list>
         <option value="$PROJECT_DIR$/SpringBootApp/pom.xml" />
         <option value="$PROJECT_DIR$/DataCollectionDispatcher/pom.xml" />
+        <option value="$USER_HOME$/Desktop/Fuel-Station-Data-Collector/PDFGenerator/pom.xml" />
+        <option value="$PROJECT_DIR$/GeneratePDF/pom.xml" />
+        <option value="$PROJECT_DIR$/StationDataCollector/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$USER_HOME$/Desktop/Fuel-Station-Data-Collector/PDFGenerator/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="corretto-17" project-jdk-type="JavaSDK">
