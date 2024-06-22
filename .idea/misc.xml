@@ -12,6 +12,7 @@
         <option value="$USER_HOME$/Desktop/Fuel-Station-Data-Collector/PDFGenerator/pom.xml" />
         <option value="$PROJECT_DIR$/GeneratePDF/pom.xml" />
         <option value="$PROJECT_DIR$/StationDataCollector/pom.xml" />
+        <option value="$PROJECT_DIR$/DataCollectionReceiver/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
