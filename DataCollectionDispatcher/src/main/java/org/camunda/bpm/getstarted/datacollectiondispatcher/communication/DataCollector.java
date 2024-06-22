@@ -47,7 +47,7 @@ public class DataCollector {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(brokerUrl);
         factory.setPort(30003);
-        msg = customerID + ";" + msg;
+        msg = "CustomerID: " + customerID + ";" + msg;
 
         try (Connection connection = factory.newConnection();
              Channel channel = connection.createChannel()) {
