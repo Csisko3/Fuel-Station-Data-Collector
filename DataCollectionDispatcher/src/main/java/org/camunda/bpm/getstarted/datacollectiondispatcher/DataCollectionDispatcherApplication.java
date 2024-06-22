@@ -1,11 +1,7 @@
 package org.camunda.bpm.getstarted.datacollectiondispatcher;
 
 import org.camunda.bpm.getstarted.datacollectiondispatcher.controller.DataCollectionDispatcherController;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import org.camunda.bpm.getstarted.datacollectiondispatcher.communication.Sender;
-import org.camunda.bpm.getstarted.datacollectiondispatcher.communication.Receiver;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;

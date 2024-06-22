@@ -1,9 +1,8 @@
 package org.camunda.bpm.getstarted.datacollectiondispatcher.controller;
 
-import org.camunda.bpm.getstarted.datacollectiondispatcher.communication.Receiver;
-import org.camunda.bpm.getstarted.datacollectiondispatcher.communication.Sender;
 import org.camunda.bpm.getstarted.datacollectiondispatcher.model.Station;
 import org.camunda.bpm.getstarted.datacollectiondispatcher.service.DataCollectionService;
+import org.camunda.bpm.getstarted.datacollectiondispatcher.communication.DataCollector;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -21,14 +20,14 @@ public class DataCollectionDispatcherController {
 
     public void run(String queueName, String brokerUrl) throws IOException, TimeoutException {
         this.broker = brokerUrl;
-        Receiver.receive(queueName, brokerUrl, this);
+        DataCollector.receive(queueName, brokerUrl, this);
     }
 
     public void startDispatching(String customerId) throws SQLException {
         ArrayList<Station> stations = dataCollectionService.getStations();
-        Sender.send("Sending in Q for Receiver", customerId, "RECEIVER", broker);
+        DataCollector.send("Sending in Q for Receiver", customerId, "RECEIVER", broker);
         for (Station station : stations) {
-            Sender.send(station.getDb_url(), customerId, "COLLECTOR", broker);
+            DataCollector.send(station.getDb_url(), customerId, "COLLECTOR", broker);
         }
     }
 }
