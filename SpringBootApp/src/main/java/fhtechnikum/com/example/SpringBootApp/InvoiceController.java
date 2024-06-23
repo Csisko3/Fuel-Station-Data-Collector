@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/invoices")
 public class InvoiceController {
-
 
     @PostMapping("/{customerId}")
     public void sendCustomerID(@PathVariable String customerId) {
@@ -22,10 +24,30 @@ public class InvoiceController {
         Invoice.sendCustomerID(customerId);
     }
 
-    private static final String INVOICES_DIRECTORY = "invoices" + File.separator;
+    private static final String INVOICES_DIRECTORY = "FileStorage" + File.separator;
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<Resource> getInvoice(@PathVariable String customerId) {
+    public ResponseEntity<Map<String, Object>> getInvoice(@PathVariable String customerId) {
+        // Erstelle den Dateipfad basierend auf der customerId
+        Path invoicePath = Paths.get(INVOICES_DIRECTORY, "invoice_" + customerId + ".pdf");
+        File invoiceFile = invoicePath.toFile();
+
+        // Prüfe, ob die Datei existiert
+        if (!invoiceFile.exists()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        // Erstelle die JSON-Antwort mit dem Download-Link und der Erstellungszeit
+        Map<String, Object> response = new HashMap<>();
+        String downloadLink = "http://localhost:8080/invoices/" + customerId + "/download";
+        response.put("downloadLink", downloadLink);
+        response.put("creationTime", Instant.ofEpochMilli(invoiceFile.lastModified()).toString());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{customerId}/download")
+    public ResponseEntity<Resource> downloadInvoice(@PathVariable String customerId) {
         // Erstelle den Dateipfad basierend auf der customerId
         Path invoicePath = Paths.get(INVOICES_DIRECTORY, "invoice_" + customerId + ".pdf");
         File invoiceFile = invoicePath.toFile();
