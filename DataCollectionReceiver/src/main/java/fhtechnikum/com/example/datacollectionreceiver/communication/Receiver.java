@@ -33,7 +33,7 @@ public class Receiver {
                 System.out.println(" [x] Sent collected data to PDF_GENERATOR queue");
                 // Reset the collected data
                 collectedData.setLength(0);
-            } else {
+            } else if (!message.endsWith(";start")) {
                 // Add data to collectedData
                 collectedData.append(message);
             }

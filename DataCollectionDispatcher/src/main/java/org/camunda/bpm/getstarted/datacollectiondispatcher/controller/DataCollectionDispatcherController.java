@@ -25,7 +25,7 @@ public class DataCollectionDispatcherController {
 
     public void startDispatching(String customerId) throws SQLException {
         ArrayList<Station> stations = dataCollectionService.getStations();
-        DataCollector.send("Sending in Q for Receiver", customerId, "RECEIVER", broker);
+        DataCollector.send("start", customerId, "RECEIVER", broker);
         for (Station station : stations) {
             DataCollector.send(station.getDb_url(), customerId, "COLLECTOR", broker);
         }
