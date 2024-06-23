@@ -1,6 +1,0 @@
-fhtechnikum\com\example\datacollectionreceiver\model\Charge.class
-fhtechnikum\com\example\datacollectionreceiver\communication\Receiver.class
-fhtechnikum\com\example\datacollectionreceiver\service\DataService.class
-fhtechnikum\com\example\datacollectionreceiver\communication\Sender.class
-fhtechnikum\com\example\datacollectionreceiver\DataCollectionReceiverApplication.class
-fhtechnikum\com\example\datacollectionreceiver\model\ChargeJob.class
