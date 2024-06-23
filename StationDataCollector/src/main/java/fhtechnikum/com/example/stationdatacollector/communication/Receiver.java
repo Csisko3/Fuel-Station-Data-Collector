@@ -4,7 +4,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
-import fhtechnikum.com.example.stationdatacollector.service.DataService;
+import fhtechnikum.com.example.stationdatacollector.service.StationCollectorService;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -35,11 +35,8 @@ public class Receiver {
             String customerId = parts[0];
             String dbUrl = parts[1];
 
-            // Collect data from the station database
-            String collectedData = DataService.collectData(dbUrl, customerId);
-
-            // Send collected data to the DataCollectionReceiver queue
-            Sender.send(collectedData, "COLLECTOR_RECEIVER", brokerUrl);
+            // Collect data from the station database and send it
+            StationCollectorService.collectAndSendData(dbUrl, customerId, brokerUrl);
         };
 
         channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});
