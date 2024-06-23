@@ -20,4 +20,9 @@ public class Sender {
             e.printStackTrace();
         }
     }
+
+    public static void sendEnd(String customerId, String queueName, String brokerUrl) {
+        String endMessage = customerId + ";end";
+        send(endMessage, queueName, brokerUrl);
+    }
 }
