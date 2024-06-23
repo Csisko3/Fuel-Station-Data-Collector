@@ -27,7 +27,7 @@ public class Receiver {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received message: " + message);
 
-            if (message.endsWith("end")) {
+            if (message.endsWith(";end")) {
                 // Send collected data to the PDF_GENERATOR queue
                 Sender.send(collectedData.toString(), "PDF_GENERATOR", brokerUrl);
                 System.out.println(" [x] Sent collected data to PDF_GENERATOR queue");
@@ -35,7 +35,7 @@ public class Receiver {
                 collectedData.setLength(0);
             } else {
                 // Add data to collectedData
-                collectedData.append(message).append(";");
+                collectedData.append(message);
             }
         };
 
