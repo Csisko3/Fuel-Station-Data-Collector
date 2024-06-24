@@ -31,12 +31,8 @@ class GetInvoiceTest {
 
 	@Test
 	void testGetInvoice() throws Exception {
-		Path invoicePath = Paths.get("FileStorage", "invoice_1.pdf");
+		Path invoicePath = Paths.get("FileStorage", "invoice_1.pdf"); //erstellt Ordner im Collector
 		File invoiceFile = new File(invoicePath.toUri());
-
-		// Geben Sie den Pfad aus, den Ihr Code zu verwenden versucht
-		System.out.println("Versucht zu erstellen: " + invoicePath.toAbsolutePath());
-
 
 		// Erstellen Sie die Datei, wenn sie nicht existiert
 		if (!invoiceFile.exists()) {
@@ -49,6 +45,6 @@ class GetInvoiceTest {
 				.andExpect(jsonPath("$.creationTime").isNotEmpty());
 				//Check if downloadLink is rightly made and creationTime not empty
 
-		invoiceFile.delete(); // Bereinigen Sie die Datei nach dem Test
+		invoiceFile.delete(); // bereinigt Dateien nach Test
 	}
 }

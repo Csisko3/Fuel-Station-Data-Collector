@@ -32,12 +32,11 @@ public class InvoiceController {
         Path invoicePath = Paths.get(INVOICES_DIRECTORY, "invoice_" + customerId + ".pdf");
         File invoiceFile = invoicePath.toFile();
 
-        // Prüfe, ob die Datei existiert
         if (!invoiceFile.exists()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        // Erstelle die JSON-Antwort mit dem Download-Link und der Erstellungszeit
+        // Downloadlink + creation time
         Map<String, Object> response = new HashMap<>();
         String downloadLink = "http://localhost:8080/invoices/" + customerId + "/download";
         response.put("downloadLink", downloadLink);
@@ -46,18 +45,17 @@ public class InvoiceController {
         return ResponseEntity.ok(response);
     }
 
+    // Create Download
     @GetMapping("/{customerId}/download")
     public ResponseEntity<Resource> downloadInvoice(@PathVariable String customerId) {
-        // Erstelle den Dateipfad basierend auf der customerId
+        // create path
         Path invoicePath = Paths.get(INVOICES_DIRECTORY, "invoice_" + customerId + ".pdf");
         File invoiceFile = invoicePath.toFile();
 
-        // Prüfe, ob die Datei existiert
         if (!invoiceFile.exists()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        // Erstelle die ResponseEntity mit der PDF-Datei und den entsprechenden HTTP-Headern
         Resource resource = new FileSystemResource(invoiceFile);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + invoiceFile.getName());

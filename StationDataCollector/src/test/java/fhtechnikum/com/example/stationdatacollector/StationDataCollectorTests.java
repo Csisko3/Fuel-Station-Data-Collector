@@ -19,9 +19,11 @@ class StationDataCollectorTests {
 
     private MockMvc mockMvc;
 
+    // Injects a mock of InvoiceController into the test
     @InjectMocks
     private InvoiceController invoiceController;
 
+    //Set up test environment
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -31,6 +33,7 @@ class StationDataCollectorTests {
         initializeDatabaseWithTestData();
     }
 
+    //insert test data into db
     private void initializeDatabaseWithTestData() {
         String[] dbUrls = {
                 "jdbc:postgresql://localhost:30011/stationdb",
@@ -56,6 +59,7 @@ class StationDataCollectorTests {
         }
     }
 
+    //Actuall test
     @Test
     void testAccessToStationDatabases() {
         // Database details
