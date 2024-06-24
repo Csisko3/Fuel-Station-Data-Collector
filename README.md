@@ -1,5 +1,10 @@
 ## Fuel-Station-Data-Collector
 
+**UML**
+
+![image](https://github.com/Csisko3/Fuel-Station-Data-Collector/assets/131276424/7471d3aa-6cc8-4908-99d8-cbb12f1a94af)
+
+
 **Responsibilities**
 
 Csiszer Roland:
