@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="SpringBootApp" />
         <module name="StationDataCollector" />
+        <module name="invoiceapp" />
         <module name="DataCollectionDispatcher" />
         <module name="datacollectionreceiver" />
         <module name="GeneratePDF" />

@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/GeneratePDF/pom.xml" />
         <option value="$PROJECT_DIR$/StationDataCollector/pom.xml" />
         <option value="$PROJECT_DIR$/DataCollectionReceiver/pom.xml" />
+        <option value="$PROJECT_DIR$/javafx/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
