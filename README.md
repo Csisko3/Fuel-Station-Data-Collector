@@ -41,7 +41,7 @@ When it comes to the use case, it was a perfect representation of distributed sy
 
 ## Description of unit testing
 
-We decided to test the repository in the service _StationDataCollector_. Since the this half way of our service it is important that the data flow is correct so we could narrow down mistkase easier if they happen.
+We decided to test the repository in the service _StationDataCollector_. Since this is half into our service it is important that the data flow is correct so we could narrow down mistkase easier if they happen.
 The functions we tested are _GetInvoiceTest_ and _StationDataCollectorTests_.
 _GetInvoiceTest_ simulates an HTTP GET request, checks the status code and the response data, ensures the file is created, and then deletes the file afterward. 
 _StationDataCollectorTests_ sets up a mock environment for the InvoiceController, initializes the three stations (station_db 1-3) with test data, and verifies successful data retrieval for a specific customer ID from each database.
